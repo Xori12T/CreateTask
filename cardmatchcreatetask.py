@@ -3,14 +3,16 @@ import random
 from time import sleep as s
 
 screen = turtle.Screen()
-canvas = screen.getcanvas()
+screen.setup(400,300)
 screen.bgcolor("#B9CBD9")
 writer = turtle.Turtle()
 writer.hideturtle()
 writer.up()
 writer.speed(0)
-writer.goto(0,300)
-writer.write("Match!", align="center", font=("Arial", 25, "normal"))
+writer.goto(0,270)
+writer.write("Match!", align="center", font=("Arial", 100, "normal"))
+writer.goto(0,-375)
+writer.write("Click on each black card to reveal its color.\nTry to match all the cards!", align="center", font=("Arial", 25, "normal"))
 collist = ["cyan", "blue", "green", "red", "yellow", "purple", "orange", "chartreuse"]
 random.shuffle(collist)
 poslist = [(-225, 200), (-75, 200), (75, 200), (225,200),
