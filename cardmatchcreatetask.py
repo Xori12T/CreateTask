@@ -1,18 +1,26 @@
 import turtle
 import random
-from time import sleep as s
 
 screen = turtle.Screen()
-screen.setup(400,300)
+
+displaywidth = screen.cv.winfo_screenwidth()
+displayheight = screen.cv.winfo_screenheight()
+screen.setup(displaywidth*0.45,displayheight*0.9)
+
 screen.bgcolor("#B9CBD9")
 writer = turtle.Turtle()
+alert = turtle.Turtle()
 writer.hideturtle()
+alert.hideturtle()
+alert.speed(0)
+alert.pensize(20)
 writer.up()
+alert.up()
 writer.speed(0)
 writer.goto(0,270)
 writer.write("Match!", align="center", font=("Arial", 100, "normal"))
-writer.goto(0,-375)
-writer.write("Click on each black card to reveal its color.\nTry to match all the cards!", align="center", font=("Arial", 25, "normal"))
+writer.goto(0,-390)
+writer.write("Click on each card to reveal its color.\nMatch all cards in the least turns possible!", align="center", font=("Arial", 25, "normal"))
 collist = ["cyan", "blue", "green", "red", "yellow", "purple", "orange", "chartreuse"]
 random.shuffle(collist)
 poslist = [(-225, 200), (-75, 200), (75, 200), (225,200),
@@ -27,6 +35,32 @@ secondcard = None
 locked = False
 count = 1
 turns = 0
+
+def notice(txt, align=35):
+    fs = 50
+    alert.up()
+    alert.goto(-275, 100)
+    alert.seth(0)
+    alert.down()
+    alert.color("black","white")
+    alert.begin_fill()
+    for x in range(2):
+        alert.forward(550)
+        alert.right(90)
+        alert.forward(200)
+        alert.right(90)
+    alert.up()
+    alert.end_fill()
+    alert.goto(0,-align)
+    if len(txt) > 35:
+        fs = 35
+    alert.write(txt, align="center", font=("Arial", fs, "normal"))
+    screen.ontimer(noterase, 800)
+
+
+def noterase():
+    alert.clear()
+    
 
 def check(f, s):
     return f == s
@@ -49,7 +83,7 @@ def on_card_click(card, color):
                 count = 2
                 turns += 1
                 print(f"------------- Turn {turns} -------------")
-                print("Card clicked: " + color + ", " + str(card))
+                print("Card clicked: " + color + ". ")
                 card.color("black", color)
             else:
                 if card != firstcard:
@@ -57,20 +91,18 @@ def on_card_click(card, color):
                     second = color
                     secondcard = card
                     count = 1
-                    print("Card clicked: " + color + ", " + str(card))
+                    print("Card clicked: " + color + ". ")
                     card.color("black", color)
-                    # screen.ontimer(lambda: card.color("black", "black"), 2000)
                     if check(first, second):
                         print("Thats a match!")
                         firstcard.solved = True
                         secondcard.solved = True
-                        screen.ontimer(reset, 2000)
+                        notice("That's a match!")
+                        screen.ontimer(reset, 1000)
                     else:
-                        print("Oh noo...")
-                        screen.ontimer(reset, 2000)
-
-
-
+                        print("That's not a match...")
+                        notice("That's not\na match...", 75)
+                        screen.ontimer(reset, 1000)
 
 def generate_cards(l, d):
     l2 = l[:]
@@ -81,13 +113,16 @@ def generate_cards(l, d):
         nl.append(l2[c])
         nl.append(l2[c])
         l2.pop(c)
-    random.shuffle(nl)
+    for x in range(random.randint(1,5)):
+        random.shuffle(nl)
     return nl
 
 def showall():
-    global cards
+    global cards, turns
+    turns += 100
     for x in cards:
         x.fillcolor(x.revealcolor)
+        x.solved = True
 
 def reset():
     global cards, firstcard, secondcard, turns, difficulty, locked
@@ -96,12 +131,12 @@ def reset():
     diff = ""
     for x in cards:
         if not x.solved:
-            x.fillcolor("black") 
+            x.fillcolor("white") 
     
     if difficulty == 8:
         diff = "easy"
     elif difficulty == 12:
-        diff = "medium"
+        diff = "normal"
     else:
         diff = "hard"
 
@@ -109,6 +144,8 @@ def reset():
 
     if donecheck():
         print("You win!")
+        notice("You win!")
+        screen.ontimer(notice(f"It took you {turns} turns\nto win in {diff} mode!", 50), 1500)
         print(f"It took you {turns} turns to win in {diff} mode!")
         turtle.bye()
     
@@ -128,7 +165,7 @@ for x in range(difficulty):
     cd = turtle.Turtle()
     cd.shape("square")
     cd.shapesize(5, 4)
-    cd.color("black", "black")
+    cd.color("black", "white")
     cd.revealcolor = cardcollist[x]
     cd.solved = False
     cd.speed(0)
