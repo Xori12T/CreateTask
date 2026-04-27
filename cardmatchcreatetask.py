@@ -164,9 +164,9 @@ def reset():
     if donecheck():
         print("You win!")
         notice("You win!")
-        screen.ontimer(notice(f"It took you {turns} turns\nto win in {diff} mode!", 50), 1500)
+        screen.ontimer(lambda: notice(f"It took you {turns} turns\nto win in {diff} mode!", 50), 1500)
         print(f"It took you {turns} turns to win in {diff} mode!")
-        turtle.bye()
+        screen.ontimer(turtle.bye, 4000)
     
 #checks win condition, iterates through list
 def donecheck():
@@ -193,7 +193,10 @@ for x in range(difficulty):
     cd.speed(0)
     cd.up()
     cd.goto(poslist[x][0], poslist[x][1])
-    #sets up what each turtle does when clicked, runs the game
+    #sets up what each turtle does when clicked, runs the game. x, y is unneeded, but onclick still needs to recieve them
+    #c = cd returns what card is clicked, and col stores what color its supposed to be
+    #then, it calls the on_card_click function.
+    #lambda is a small unnamed function that onclick needs, it passes values to and from the onclick to the on_card_click function
     cd.onclick(lambda x, y, c=cd, col = cd.revealcolor: on_card_click(c, col))
     cards.append(cd)
 
