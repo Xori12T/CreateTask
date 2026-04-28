@@ -122,17 +122,18 @@ def on_card_click(card, color):
 
 #more setup function, creates the list of colors for the cards
 def generate_cards(l, d):
-    l2 = l[:]
-    nl = []
-    c = 0
-    for x in range(int(d/2)):
-        c = random.randint(0,len(l2)-1)
-        nl.append(l2[c])
-        nl.append(l2[c])
-        l2.pop(c)
-    for x in range(random.randint(1,5)):
-        random.shuffle(nl)
-    return nl
+    if d % 2 == 0:
+        l2 = l[:]
+        nl = []
+        c = 0
+        for x in range(int(d/2)):
+            c = random.randint(0,len(l2)-1)
+            nl.append(l2[c])
+            nl.append(l2[c])
+            l2.pop(c)
+        for x in range(random.randint(1,5)):
+            random.shuffle(nl)
+        return nl
 
 #debug function
 def showall():
