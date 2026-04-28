@@ -66,7 +66,7 @@ def notice(txt, align=35):
     if len(txt) > 35:
         fs = 35
     alert.write(txt, align="center", font=("Arial", fs, "normal"))
-    screen.ontimer(noterase, 800)
+    screen.ontimer(noterase, 900)
 
 #very small function to clear the pop up after a time with ontimer and doesn't stop the program's runtime
 def noterase():
