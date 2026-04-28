@@ -114,6 +114,7 @@ def on_card_click(card, color):
                         firstcard.solved = True
                         secondcard.solved = True
                         notice("That's a match!")
+                        #no program stall timed function call, replace time.sleep
                         screen.ontimer(reset, 1000)
                     else:
                         print("That's not a match...")
