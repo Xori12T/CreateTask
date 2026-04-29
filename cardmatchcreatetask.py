@@ -47,7 +47,7 @@ count = 1
 turns = 0
 
 #user defined function for pop up text
-def notice(txt, align=35):
+def notice(txt, align=35, t=900):
     fs = 50
     alert.up()
     alert.goto(-275, 100)
@@ -66,7 +66,7 @@ def notice(txt, align=35):
     if len(txt) > 35:
         fs = 35
     alert.write(txt, align="center", font=("Arial", fs, "normal"))
-    screen.ontimer(noterase, 900)
+    screen.ontimer(noterase, t)
 
 #very small function to clear the pop up after a time with ontimer and doesn't stop the program's runtime
 def noterase():
@@ -136,6 +136,9 @@ def generate_cards(l, d):
         for x in range(random.randint(1,5)):
             random.shuffle(nl)
         return nl
+    else:
+        print("d has to be an even number")
+        return
 
 #debug function
 def showall():
@@ -167,7 +170,7 @@ def reset():
     if donecheck():
         print("You win!")
         notice("You win!")
-        screen.ontimer(lambda: notice(f"It took you {turns} turns\nto win in {diff} mode!", 50), 1500)
+        screen.ontimer(lambda: notice(f"It took you {turns} turns\nto win in {diff} mode!", 50), 1500, 1500)
         print(f"It took you {turns} turns to win in {diff} mode!")
         screen.ontimer(turtle.bye, 4000)
     
