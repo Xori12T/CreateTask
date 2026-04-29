@@ -47,7 +47,7 @@ count = 1
 turns = 0
 
 #user defined function for pop up text
-def notice(txt, align=35, t=900):
+def notice(txt, align=35, t=1000):
     fs = 50
     alert.up()
     alert.goto(-275, 100)
@@ -115,11 +115,11 @@ def on_card_click(card, color):
                         secondcard.solved = True
                         notice("That's a match!")
                         #no program stall timed function call, replace time.sleep
-                        screen.ontimer(reset, 1000)
+                        screen.ontimer(reset, 1050)
                     else:
                         print("That's not a match...")
                         notice("That's not\na match...", 75)
-                        screen.ontimer(reset, 1000)
+                        screen.ontimer(reset, 1050)
 
 #more setup function, creates the list of colors for the cards
 def generate_cards(l, d):
@@ -170,7 +170,7 @@ def reset():
     if donecheck():
         print("You win!")
         notice("You win!")
-        screen.ontimer(lambda: notice(f"It took you {turns} turns\nto win in {diff} mode!", 50), 1500, 1500)
+        screen.ontimer(lambda: notice(f"It took you {turns} turns\nto win in {diff} mode!", 50), 1500, 3000)
         print(f"It took you {turns} turns to win in {diff} mode!")
         screen.ontimer(turtle.bye, 4000)
     
