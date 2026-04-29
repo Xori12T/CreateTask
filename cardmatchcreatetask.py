@@ -123,6 +123,7 @@ def on_card_click(card, color):
 
 #more setup function, creates the list of colors for the cards
 def generate_cards(l, d):
+    d = int(d)
     if d % 2 == 0:
         l2 = l[:]
         nl = []
