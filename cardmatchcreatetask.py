@@ -170,7 +170,7 @@ def reset():
     if donecheck():
         print("You win!")
         notice("You win!")
-        screen.ontimer(lambda: notice(f"It took you {turns} turns\nto win in {diff} mode!", 50), 1500, 3000)
+        screen.ontimer(lambda: notice(f"It took you {turns} turns\nto win in {diff} mode!", 50, 3000), 1500)
         print(f"It took you {turns} turns to win in {diff} mode!")
         screen.ontimer(turtle.bye, 4000)
     
